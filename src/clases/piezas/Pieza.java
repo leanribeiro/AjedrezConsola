@@ -1,5 +1,7 @@
 package clases.piezas;
 
+import clases.juego.Tablero;
+
 import java.util.List;
 
 public class Pieza {
@@ -24,6 +26,9 @@ public class Pieza {
     }
 
     public void moverse() {}
+    public List<String> posicionesValidasMover(Tablero tablero){
+        return null;
+    }
 
     public String getNombre() {
         return nombre;

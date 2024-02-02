@@ -2,6 +2,7 @@ package clases.juego;
 
 import clases.piezas.Pieza;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class Dinamica {
@@ -68,15 +69,12 @@ public class Dinamica {
         int xIni = sc.nextInt();
         sc.nextLine();
         System.out.println("Elija la letra de la columna: ");
-        int yIni = tablero.getColumnaIndex(sc.nextLine().toUpperCase());
+        int yIni = tablero.getIndexByLetra(sc.nextLine().toUpperCase());
 
         Pieza pieza = tablero.obtenerPiezaByPosicion(xIni,yIni,Tablero.NEGRO);
         if(pieza == null){
             System.out.println("Ingrese una pieza valida");
         }else{
-
-//            boolean movimientoValido = tablero.validarPosicionAMover(pieza.getPosicion_x(), yIni);
-//            System.out.println(movimientoValido);
             int xFin=-1;
             int yFin=-1;
             mostrarMensajeSegunPieza(sc, tablero, pieza, xFin,yFin);
@@ -100,8 +98,33 @@ public class Dinamica {
 
             case Tablero.PEON_BLANCO, Tablero.PEON_NEGRO:
                 System.out.println("Prueba peon");
-                tablero.moverPieza(pieza);
-                tablero.mostrarTablero();
+                System.out.println("Estas son los posibles movimientos: (aparecera el nombre de la casilla en verde) ");
+                List<String> movimientos = pieza.posicionesValidasMover(tablero);
+                tablero.mostrarTablero(true,movimientos);
+                System.out.println("Ingrese el nombre de la casilla a la que se quiere mover: ");
+                String casilla = sc.nextLine();
+                boolean casillaValida = false;
+                while(!casillaValida){
+                    if(casilla.length() ==2 ){
+                        var casillaSeleccionada = casilla.split("");
+                        if(Character.isDigit(casillaSeleccionada[0].charAt(0)) &&
+                                Character.isLetter(casillaSeleccionada[1].toUpperCase().charAt(0))
+                        && tablero.esPosicionValidaAMostrar(Integer.parseInt(casillaSeleccionada[0]),
+                                tablero.getIndexByLetra(casillaSeleccionada[1]),movimientos)
+                        ){
+                            casillaValida  = true;
+                        }else{
+
+                            System.out.println("Ingrese una casilla valida");
+                            casilla = sc.nextLine();
+                        }
+                    }
+
+                }
+
+
+//                tablero.moverPieza(pieza);
+//                tablero.mostrarTablero(false,movimientos);
 
                 break;
             case Tablero.TORRE_BLANCO, Tablero.TORRE_NEGRO:

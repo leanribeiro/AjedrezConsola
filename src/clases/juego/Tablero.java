@@ -3,6 +3,7 @@ package clases.juego;
 import clases.piezas.*;
 
 import java.util.HashMap;
+import java.util.List;
 
 
 public class Tablero {
@@ -56,10 +57,22 @@ public class Tablero {
         llenarPiezasNegrasIni();
         llenarPiezasBlancasIni();
         llenarEspaciosVacios();
-        mostrarTablero();
+        mostrarTablero(false,null);
     }
 
-    public void mostrarTablero() {
+    public boolean esPosicionValidaAMostrar(int x, int y, List<String> movimientos){
+        final boolean[] result = {Boolean.FALSE};
+        movimientos.forEach(movimiento ->{
+            var mov = movimiento.split("");
+            if(Integer.parseInt(mov[0])== x && Integer.parseInt(mov[1]) == y ){
+                result[0] =  Boolean.TRUE;
+            }
+        });
+
+        return result[0];
+    }
+
+    public void mostrarTablero(boolean mostrarValidas, List<String> movimientos) {
         System.out.println("        A     B     C    D     E     F     G     H");
 
         for (int i = 0; i < tablero.length; i++) {
@@ -74,9 +87,17 @@ public class Tablero {
                 }
                 if (!piezas.containsKey(nombrePieza)) {
                     if (j == 7) {
-                        System.out.print(" _ ");
+                        if(mostrarValidas && esPosicionValidaAMostrar(i,j,movimientos)){
+                            System.out.print("\033[0;32m"+" X "+"\033[0m");
+                        }else{
+                            System.out.print(" _ ");
+                        }
                     } else {
-                        System.out.print(" _ ");
+                        if(mostrarValidas  && esPosicionValidaAMostrar(i,j,movimientos)){
+                            System.out.print(" "+"\033[0;32m"+i+getColumnaByIndex(j)+"\033[0m");
+                        }else{
+                            System.out.print(" _ ");
+                        }
 
                     }
                 } else {
@@ -161,7 +182,8 @@ public class Tablero {
 
     public boolean validarPosicionAMover(int posicion_x, int posicion_y) {
         boolean esValida = false;
-        if (tablero[posicion_x][posicion_y].getNombre().equals(ESPACIO_VACIO)) {
+        if (posicion_x <8 && posicion_y < 8 && posicion_x >=0 && posicion_y >=0  &&
+                tablero[posicion_x][posicion_y].getNombre().equals(ESPACIO_VACIO)) {
             esValida = true;
         }
         return esValida;
@@ -179,7 +201,7 @@ public class Tablero {
         return columnas;
     }
 
-    public int getColumnaIndex(String columnaBuscada){
+    public int getIndexByLetra(String columnaBuscada){
         int index = 0;
         for(int i=0;i<getColumnas().length;i++){
             if(getColumnas()[i].equals(columnaBuscada)){
@@ -188,6 +210,9 @@ public class Tablero {
         }
         return index;
     }
+    public String getColumnaByIndex(int index){
+        return getColumnas()[index];
+    }
 
     public void moverPieza(Pieza pieza){
         int xAntiguo = pieza.getPosicion_x();
@@ -195,6 +220,12 @@ public class Tablero {
         pieza.moverse();
         tablero[pieza.getPosicion_x()][pieza.getPosicion_y()]= pieza;
         tablero[xAntiguo][yAntiguo] = new Pieza(ESPACIO_VACIO, "", pieza.getPosicion_x(), pieza.getPosicion_y());
+    }
+
+    public void mostrarPosibles(List<String> movimientos){
+        var tableroClone = tablero.clone();
+
+        mostrarTablero(false,null);
     }
 
     public void setColumnas(String[] columnas) {
