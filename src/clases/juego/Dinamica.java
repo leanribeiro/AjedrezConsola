@@ -79,7 +79,7 @@ public class Dinamica {
 //            System.out.println(movimientoValido);
             int xFin=-1;
             int yFin=-1;
-            mostrarMensajeSegunPieza(sc, pieza, xFin,yFin);
+            mostrarMensajeSegunPieza(sc, tablero, pieza, xFin,yFin);
 
         }
 
@@ -87,9 +87,10 @@ public class Dinamica {
     }
 
 
-    private static void mostrarMensajeSegunPieza( Scanner sc,Pieza pieza,  int xFin, int yFin ){
+    private static void mostrarMensajeSegunPieza( Scanner sc,Tablero tablero, Pieza pieza,  int xFin, int yFin ){
         switch (pieza.getNombre().substring(0,pieza.getNombre().length()-1)){
             case Tablero.ALFIL_BLANCO, Tablero.ALFIL_NEGRO:
+
                 System.out.println("Prueba alfil");
                 break;
             case Tablero.CABALLO_BLANCO , Tablero.CABALLO_NEGRO:
@@ -99,6 +100,8 @@ public class Dinamica {
 
             case Tablero.PEON_BLANCO, Tablero.PEON_NEGRO:
                 System.out.println("Prueba peon");
+                tablero.moverPieza(pieza);
+                tablero.mostrarTablero();
 
                 break;
             case Tablero.TORRE_BLANCO, Tablero.TORRE_NEGRO:

@@ -1,6 +1,5 @@
 package clases.piezas;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Pieza {
@@ -24,13 +23,7 @@ public class Pieza {
         this.posicion_y = posicion_y;
     }
 
-    public int[] movimiento(){
-        int[] result = new int[2];
-        return result;
-    }
-
-
-
+    public void moverse() {}
 
     public String getNombre() {
         return nombre;
@@ -65,7 +58,7 @@ public class Pieza {
     }
 
 
-    public void mover( Pieza[][] tablero,Pieza pieza,int posicion_x,int posicion_y){
-        tablero[posicion_x][posicion_y] = pieza;
+    public void mover( Pieza[][] tablero,int posicion_x,int posicion_y){
+        tablero[posicion_x][posicion_y] = this;
     }
 }

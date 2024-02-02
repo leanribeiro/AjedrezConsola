@@ -35,19 +35,19 @@ public class Tablero {
 
 
     public void crearMapPiezas() {
-        piezas.put(CABALLO_NEGRO, "\u265E");
-        piezas.put(ALFIL_NEGRO, "\u265D");
-        piezas.put(REY_NEGRO, "\u265A");
-        piezas.put(REINA_NEGRO, "\u265B");
-        piezas.put(PEON_NEGRO, "\u265F");
-        piezas.put(TORRE_NEGRO, "\u265C");
+        piezas.put(CABALLO_BLANCO, "\u265E");
+        piezas.put(ALFIL_BLANCO, "\u265D");
+        piezas.put(REY_BLANCO, "\u265A");
+        piezas.put(REINA_BLANCO, "\u265B");
+        piezas.put(PEON_BLANCO, "\u265F");
+        piezas.put(TORRE_BLANCO, "\u265C");
 
-        piezas.put(TORRE_BLANCO, "\u2656");
-        piezas.put(CABALLO_BLANCO, "\u2658");
-        piezas.put(ALFIL_BLANCO, "\u2657");
-        piezas.put(REY_BLANCO, "\u2654");
-        piezas.put(REINA_BLANCO, "\u2655");
-        piezas.put(PEON_BLANCO, "\u2659");
+        piezas.put(TORRE_NEGRO, "\u2656");
+        piezas.put(CABALLO_NEGRO, "\u2658");
+        piezas.put(ALFIL_NEGRO, "\u2657");
+        piezas.put(REY_NEGRO, "\u2654");
+        piezas.put(REINA_NEGRO, "\u2655");
+        piezas.put(PEON_NEGRO, "\u2659");
 
         piezas.put(ESPACIO_VACIO, "\u00A0");
     }
@@ -61,10 +61,14 @@ public class Tablero {
 
     public void mostrarTablero() {
         System.out.println("        A     B     C    D     E     F     G     H");
+
         for (int i = 0; i < tablero.length; i++) {
             System.out.println("      -----------------------------------------------");
             for (int j = 0; j < tablero[i].length; j++) {
-                String nombrePieza = tablero[i][j].getNombre().substring(0, tablero[i][j].getNombre().length() - 1);
+                String nombrePieza =  "";
+                if(tablero[i][j] !=null){
+                    nombrePieza = tablero[i][j].getNombre().substring(0, tablero[i][j].getNombre().length() - 1);
+                }
                 if (j == 0) {
                     System.out.print("     " + i);
                 }
@@ -91,7 +95,6 @@ public class Tablero {
 
             }
             System.out.println("");
-
         }
         System.out.println("      -----------------------------------------------");
     }
@@ -101,7 +104,7 @@ public class Tablero {
         Pieza c1 = new Caballo(CABALLO_NEGRO + "1", NEGRO, 0, 1);
         Pieza a1 = new Alfil(ALFIL_NEGRO + "1", NEGRO, 0, 2);
         Pieza reina = new Reina(REINA_NEGRO + "N", NEGRO, 0, 3);
-        Pieza rey = new Rey(REY_NEGRO + "N", NEGRO, 0, 4);
+        Pieza rey = new Rey(REY_NEGRO+ "N", NEGRO, 0, 4);
         Pieza a2 = new Alfil(ALFIL_NEGRO + "2", NEGRO, 0, 5);
         Pieza c2 = new Caballo(CABALLO_NEGRO + "2", NEGRO, 0, 6);
         Pieza t2 = new Torre(TORRE_NEGRO + "2", NEGRO, 0, 7);
@@ -113,8 +116,8 @@ public class Tablero {
         Pieza p6 = new Peon(PEON_NEGRO + "6", NEGRO, 1, 5);
         Pieza p7 = new Peon(PEON_NEGRO + "7", NEGRO, 1, 6);
         Pieza p8 = new Peon(PEON_NEGRO + "8", NEGRO, 1, 7);
-        Pieza[] piezasNegras = {t1, c1, a1, reina, rey, a2, c2, t2, p1, p2, p3, p4, p5, p6, p7, p8};
-        for (Pieza pieza : piezasNegras) {
+        Pieza[] piezasBlancas = {t1, c1, a1, reina, rey, a2, c2, t2, p1, p2, p3, p4, p5, p6, p7, p8};
+        for (Pieza pieza : piezasBlancas) {
             tablero[pieza.getPosicion_x()][pieza.getPosicion_y()] = pieza;
         }
 
@@ -166,7 +169,8 @@ public class Tablero {
 
     public Pieza obtenerPiezaByPosicion(int x, int y, String color){
         Pieza pieza = null;
-        if(x < 8 && y < 8  && tablero[x][y].getColor().equals(color)){
+//        && tablero[x][y].getColor().equals(color)
+        if(x < 8 && y < 8  ){
             pieza=tablero[x][y];
         }
         return pieza;
@@ -186,7 +190,11 @@ public class Tablero {
     }
 
     public void moverPieza(Pieza pieza){
-        tablero[pieza.getPosicion_x()][pieza.getPosicion_y()] = pieza;
+        int xAntiguo = pieza.getPosicion_x();
+        int yAntiguo = pieza.getPosicion_y();
+        pieza.moverse();
+        tablero[pieza.getPosicion_x()][pieza.getPosicion_y()]= pieza;
+        tablero[xAntiguo][yAntiguo] = new Pieza(ESPACIO_VACIO, "", pieza.getPosicion_x(), pieza.getPosicion_y());
     }
 
     public void setColumnas(String[] columnas) {
