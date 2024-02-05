@@ -3,6 +3,7 @@ package clases.piezas;
 import clases.juego.Tablero;
 
 import java.util.List;
+import java.util.Scanner;
 
 public class Pieza {
     private  String nombre;
@@ -18,14 +19,12 @@ public class Pieza {
         this.posicion_y = posicion_y;
     }
 
-    public Pieza(List<Integer> listaMovimientos) {
-    }
     public Pieza(int posicion_x, int posicion_y) {
         this.posicion_x = posicion_x;
         this.posicion_y = posicion_y;
     }
 
-    public void moverse() {}
+    public void moverse(int posX, int posY) {}
     public List<String> posicionesValidasMover(Tablero tablero){
         return null;
     }
@@ -62,6 +61,7 @@ public class Pieza {
         this.posicion_y = posicion_y;
     }
 
+    public void movimiento( Pieza pieza, Tablero tablero) {}
 
     public void mover( Pieza[][] tablero,int posicion_x,int posicion_y){
         tablero[posicion_x][posicion_y] = this;

@@ -34,6 +34,8 @@ public class Tablero {
     private Jugador jugadorBlancas;
     private Jugador jugadorNegras;
 
+    private Pieza[] piezasBlancas;
+    private Pieza[] piezasNegras;
 
     public void crearMapPiezas() {
         piezas.put(CABALLO_BLANCO, "\u265E");
@@ -56,6 +58,7 @@ public class Tablero {
     public void iniciarTablero() {
         llenarPiezasNegrasIni();
         llenarPiezasBlancasIni();
+        actualizarTablero();
         llenarEspaciosVacios();
         mostrarTablero(false,null);
     }
@@ -88,7 +91,7 @@ public class Tablero {
                 if (!piezas.containsKey(nombrePieza)) {
                     if (j == 7) {
                         if(mostrarValidas && esPosicionValidaAMostrar(i,j,movimientos)){
-                            System.out.print("\033[0;32m"+" X "+"\033[0m");
+                            System.out.print("\033[0;32m"+i+getColumnaByIndex(j)+"\033[0m");
                         }else{
                             System.out.print(" _ ");
                         }
@@ -138,10 +141,10 @@ public class Tablero {
         Pieza p7 = new Peon(PEON_NEGRO + "7", NEGRO, 1, 6);
         Pieza p8 = new Peon(PEON_NEGRO + "8", NEGRO, 1, 7);
         Pieza[] piezasBlancas = {t1, c1, a1, reina, rey, a2, c2, t2, p1, p2, p3, p4, p5, p6, p7, p8};
-        for (Pieza pieza : piezasBlancas) {
-            tablero[pieza.getPosicion_x()][pieza.getPosicion_y()] = pieza;
-        }
-
+//        for (Pieza pieza : piezasBlancas) {
+//            tablero[pieza.getPosicion_x()][pieza.getPosicion_y()] = pieza;
+//        }
+        setPiezasBlancas(piezasBlancas);
     }
 
     private void llenarPiezasBlancasIni() {
@@ -162,9 +165,8 @@ public class Tablero {
         Pieza p7 = new Peon(PEON_BLANCO + "7", BLANCO, 6, 6);
         Pieza p8 = new Peon(PEON_BLANCO + "8", BLANCO, 6, 7);
         Pieza[] piezasNegras = {t1, c1, a1, reina, rey, a2, c2, t2, p1, p2, p3, p4, p5, p6, p7, p8};
-        for (Pieza pieza : piezasNegras) {
-            tablero[pieza.getPosicion_x()][pieza.getPosicion_y()] = pieza;
-        }
+//
+        setPiezasNegras(piezasNegras);
     }
 
     private void llenarEspaciosVacios() {
@@ -180,6 +182,15 @@ public class Tablero {
         }
     }
 
+    public void actualizarTablero(){
+        for (Pieza pieza : getPiezasBlancas()) {
+            tablero[pieza.getPosicion_x()][pieza.getPosicion_y()] = pieza;
+        }
+        for (Pieza pieza : getPiezasNegras()) {
+            tablero[pieza.getPosicion_x()][pieza.getPosicion_y()] = pieza;
+        }
+    }
+
     public boolean validarPosicionAMover(int posicion_x, int posicion_y) {
         boolean esValida = false;
         if (posicion_x <8 && posicion_y < 8 && posicion_x >=0 && posicion_y >=0  &&
@@ -191,8 +202,7 @@ public class Tablero {
 
     public Pieza obtenerPiezaByPosicion(int x, int y, String color){
         Pieza pieza = null;
-//        && tablero[x][y].getColor().equals(color)
-        if(x < 8 && y < 8  ){
+        if(x < 8 && y < 8  && tablero[x][y].getColor().equals(color)){
             pieza=tablero[x][y];
         }
         return pieza;
@@ -202,9 +212,9 @@ public class Tablero {
     }
 
     public int getIndexByLetra(String columnaBuscada){
-        int index = 0;
+        int index = -1;
         for(int i=0;i<getColumnas().length;i++){
-            if(getColumnas()[i].equals(columnaBuscada)){
+            if(getColumnas()[i].equals(columnaBuscada.toUpperCase())){
                 index = i;
             }
         }
@@ -214,18 +224,15 @@ public class Tablero {
         return getColumnas()[index];
     }
 
-    public void moverPieza(Pieza pieza){
+    public void moverPieza(Pieza pieza,int nuevaPosX, int nuevaPosY){
         int xAntiguo = pieza.getPosicion_x();
         int yAntiguo = pieza.getPosicion_y();
-        pieza.moverse();
-        tablero[pieza.getPosicion_x()][pieza.getPosicion_y()]= pieza;
         tablero[xAntiguo][yAntiguo] = new Pieza(ESPACIO_VACIO, "", pieza.getPosicion_x(), pieza.getPosicion_y());
-    }
 
-    public void mostrarPosibles(List<String> movimientos){
-        var tableroClone = tablero.clone();
+        pieza.moverse(nuevaPosX,nuevaPosY);
+        actualizarTablero();
 
-        mostrarTablero(false,null);
+//        tablero[pieza.getPosicion_x()][pieza.getPosicion_y()]= pieza;
     }
 
     public void setColumnas(String[] columnas) {
@@ -238,5 +245,21 @@ public class Tablero {
 
     public void setTablero(Pieza[][] tablero) {
         this.tablero = tablero;
+    }
+
+    public Pieza[] getPiezasBlancas() {
+        return piezasBlancas;
+    }
+
+    public void setPiezasBlancas(Pieza[] piezasBlancas) {
+        this.piezasBlancas = piezasBlancas;
+    }
+
+    public Pieza[] getPiezasNegras() {
+        return piezasNegras;
+    }
+
+    public void setPiezasNegras(Pieza[] piezasNegras) {
+        this.piezasNegras = piezasNegras;
     }
 }

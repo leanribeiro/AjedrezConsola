@@ -1,5 +1,6 @@
 package clases.piezas;
 
+import clases.juego.Mensaje;
 import clases.juego.Tablero;
 
 import java.util.ArrayList;
@@ -32,40 +33,60 @@ public class Peon extends Pieza{
                     movimientos.add(String.valueOf((posicionXActual + 1)) + String.valueOf(posicionYActual));
                 }
             }else{
-                movimientos.add(String.valueOf(posicionXActual  -2));
-                movimientos.add(String.valueOf(posicionXActual - 1));
+                if(tablero.validarPosicionAMover(posicionXActual - 2,posicionYActual)){
+                    movimientos.add(String.valueOf((posicionXActual - 2)) + String.valueOf(posicionYActual));
+                }
+                if(tablero.validarPosicionAMover(posicionXActual - 1,posicionYActual)){
+                    movimientos.add(String.valueOf((posicionXActual - 1)) + String.valueOf(posicionYActual));
+                }
             }
 
         }
 
         return movimientos;
     }
-
-
     @Override
-    public void moverse() {
-        if(super.getPosicion_x()== 1 || super.getPosicion_x() == 6){
-            moverDosPosiciones();
-        }else{
-            moverUnaPosicion();
-        }
+    public void moverse(int posX,int posY) {
+        setPosicion_x(posX);
+        setPosicion_y(posY);
     }
+    @Override
+    public void movimiento( Pieza pieza, Tablero tablero){
+        Mensaje mensajesFuncionalidades = new Mensaje();
+        List<String> movimientos = pieza.posicionesValidasMover(tablero);
+        String casilla = mensajesFuncionalidades.funcionalidadMovimiento(tablero,movimientos);
 
-    private void moverUnaPosicion(){
-        if(this.getColor().equals(Tablero.NEGRO)){
-            setPosicion_x(this.getPosicion_x()+1);
-        }else{
-            setPosicion_x(this.getPosicion_x()-1);
-        }
-    }
-    private void moverDosPosiciones(){
-        if(this.getColor().equals(Tablero.NEGRO)){
-            setPosicion_x(this.getPosicion_x()+2);
-        }else{
-            setPosicion_x(this.getPosicion_x()-2);
+        boolean casillaValida = false;
+        var casillaSeleccionada = casilla.split("");
+        casillaValida = validacionCasilla(casillaValida,casilla,casillaSeleccionada,tablero,movimientos);
+        if(casillaValida){
+            tablero.moverPieza(pieza,Integer.parseInt(String.valueOf(casillaSeleccionada[0].charAt(0))),
+                    tablero.getIndexByLetra(casillaSeleccionada[1]));
         }
     }
 
 
+    private boolean validacionCasilla( boolean casillaValida, String casilla, String[] casillaSeleccionada, Tablero tablero,List<String> movimientos){
+        Mensaje mensaje = new Mensaje();
+        while (!casillaValida && casilla.toUpperCase().charAt(0) != 'X') {
+            if (casilla.length() == 2 ) {
+                if (Character.isDigit(casillaSeleccionada[0].charAt(0)) &&
+                        Character.isLetter(casillaSeleccionada[1].toUpperCase().charAt(0))
+                        && tablero.esPosicionValidaAMostrar(Integer.parseInt(casillaSeleccionada[0]),
+                        tablero.getIndexByLetra(casillaSeleccionada[1]), movimientos)
+                ) {
+                    casillaValida = true;
+                }
+            }
 
+            if(!casillaValida) {
+                casilla = mensaje.pedirCasillaValida();
+                casillaSeleccionada = casilla.split("");
+            }
+
+
+        }
+
+        return casillaValida;
+    }
 }
