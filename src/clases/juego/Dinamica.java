@@ -72,7 +72,7 @@ public class Dinamica {
                 break;
             case Tablero.TORRE_BLANCO, Tablero.TORRE_NEGRO:
                 System.out.println("Prueba torre");
-
+                pieza.movimiento(pieza, tablero);
                 break;
             case Tablero.REINA_BLANCO, Tablero.REINA_NEGRO:
                 System.out.println("Prueba reina");

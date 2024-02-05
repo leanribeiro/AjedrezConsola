@@ -24,7 +24,10 @@ public class Pieza {
         this.posicion_y = posicion_y;
     }
 
-    public void moverse(int posX, int posY) {}
+    public void moverse(int posX, int posY) {
+        setPosicion_x(posX);
+        setPosicion_y(posY);
+    }
     public List<String> posicionesValidasMover(Tablero tablero){
         return null;
     }

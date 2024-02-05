@@ -46,11 +46,6 @@ public class Peon extends Pieza{
         return movimientos;
     }
     @Override
-    public void moverse(int posX,int posY) {
-        setPosicion_x(posX);
-        setPosicion_y(posY);
-    }
-    @Override
     public void movimiento( Pieza pieza, Tablero tablero){
         Mensaje mensajesFuncionalidades = new Mensaje();
         List<String> movimientos = pieza.posicionesValidasMover(tablero);
