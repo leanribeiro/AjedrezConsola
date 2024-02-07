@@ -34,7 +34,7 @@ public class Mensaje {
         String opcion = sc.nextLine();
         boolean opcionValida = false;
         while (!opcionValida) {
-            if ((opcion.length() > 1 || opcion.length() < 1) || !Character.isDigit(opcion.charAt(0))) {
+            if ((opcion.length() != 1) || !Character.isDigit(opcion.charAt(0))) {
                 mostrarMsjIngreseValida("opcion");
                 mostrarMenu();
                 opcion = sc.nextLine();
