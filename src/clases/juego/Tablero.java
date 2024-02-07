@@ -126,7 +126,7 @@ public class Tablero {
     private void llenarPiezasNegrasIni() {
         Pieza t1 = new Torre(TORRE_NEGRO + "1", NEGRO, 0, 0);
         Pieza c1 = new Caballo(CABALLO_NEGRO + "1", NEGRO, 0, 1);
-        Pieza a1 = new Alfil(ALFIL_NEGRO + "1", NEGRO, 4, 3);
+        Pieza a1 = new Alfil(ALFIL_NEGRO + "1", NEGRO, 0, 3);
         Pieza reina = new Reina(REINA_NEGRO + "N", NEGRO, 0, 3);
         Pieza rey = new Rey(REY_NEGRO+ "N", NEGRO, 0, 4);
         Pieza a2 = new Alfil(ALFIL_NEGRO + "2", NEGRO, 0, 5);
