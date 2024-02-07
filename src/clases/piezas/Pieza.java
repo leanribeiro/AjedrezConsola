@@ -2,17 +2,20 @@ package clases.piezas;
 
 import clases.juego.Tablero;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class Pieza {
-    private  String nombre;
+    private String nombre;
     private String color;
     private int posicion_x;
     private int posicion_y;
 
-    public Pieza() {}
-    public Pieza(String nombre,String color, int posicion_x, int posicion_y ){
+    public Pieza() {
+    }
+
+    public Pieza(String nombre, String color, int posicion_x, int posicion_y) {
         this.nombre = nombre;
         this.color = color;
         this.posicion_x = posicion_x;
@@ -28,8 +31,10 @@ public class Pieza {
         setPosicion_x(posX);
         setPosicion_y(posY);
     }
-    public List<String> posicionesValidasMover(Tablero tablero){
-        return null;
+
+    public List<String> posicionesValidasMover(Tablero tablero) {
+        List<String>  movimientos = new ArrayList<>();
+        return movimientos;
     }
 
     public String getNombre() {
@@ -64,9 +69,10 @@ public class Pieza {
         this.posicion_y = posicion_y;
     }
 
-    public void movimiento( Pieza pieza, Tablero tablero) {}
+    public void movimiento(Pieza pieza, Tablero tablero) {
+    }
 
-    public void mover( Pieza[][] tablero,int posicion_x,int posicion_y){
+    public void mover(Pieza[][] tablero, int posicion_x, int posicion_y) {
         tablero[posicion_x][posicion_y] = this;
     }
 }

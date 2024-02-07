@@ -60,8 +60,6 @@ public class Tablero {
         llenarPiezasBlancasIni();
         actualizarTablero();
         llenarEspaciosVacios();
-
-
         mostrarTablero(false,null);
     }
 
@@ -128,13 +126,13 @@ public class Tablero {
     private void llenarPiezasNegrasIni() {
         Pieza t1 = new Torre(TORRE_NEGRO + "1", NEGRO, 0, 0);
         Pieza c1 = new Caballo(CABALLO_NEGRO + "1", NEGRO, 0, 1);
-        Pieza a1 = new Alfil(ALFIL_NEGRO + "1", NEGRO, 0, 2);
+        Pieza a1 = new Alfil(ALFIL_NEGRO + "1", NEGRO, 4, 3);
         Pieza reina = new Reina(REINA_NEGRO + "N", NEGRO, 0, 3);
         Pieza rey = new Rey(REY_NEGRO+ "N", NEGRO, 0, 4);
         Pieza a2 = new Alfil(ALFIL_NEGRO + "2", NEGRO, 0, 5);
         Pieza c2 = new Caballo(CABALLO_NEGRO + "2", NEGRO, 0, 6);
         Pieza t2 = new Torre(TORRE_NEGRO + "2", NEGRO, 0, 7);
-        Pieza p1 = new Peon(PEON_NEGRO + "1", NEGRO, 0, 0);
+        Pieza p1 = new Peon(PEON_NEGRO + "1", NEGRO, 1, 0);
         Pieza p2 = new Peon(PEON_NEGRO + "2", NEGRO, 1, 1);
         Pieza p3 = new Peon(PEON_NEGRO + "3", NEGRO, 1, 2);
         Pieza p4 = new Peon(PEON_NEGRO + "4", NEGRO, 1, 3);

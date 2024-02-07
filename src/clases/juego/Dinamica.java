@@ -2,88 +2,76 @@ package clases.juego;
 
 import clases.piezas.Pieza;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Dinamica {
+    static List<Jugador> jugadores = new ArrayList<>();
+    static Mensaje mensajesFunciones = new Mensaje();
     public void inicio() {
-        Mensaje mensajeFunc = new Mensaje();
-        mensajeFunc.bienvenidaJuego();
-        menuFunc(mensajeFunc);
+        mensajesFunciones.bienvenidaJuego();
+        menuFunc();
     }
 
-    public void menuFunc(Mensaje mensajeFunc) {
-        int opcionMenu = mensajeFunc.elegirOpcionMenu();
-        switch (opcionMenu) {
-            case 1:
-                //Registro jugadores
-                break;
-            case 2:
-                iniciarJuego(mensajeFunc);
-                break;
-            case 3:
-                //Reglas
-                break;
-            case 4:
-                mensajeFunc.agradecimientoSalida();
-        }
+    public void menuFunc() {
+
+        boolean salirJuego = false;
+        do{
+            int opcionMenu = mensajesFunciones.elegirOpcionMenu();
+            switch (opcionMenu) {
+                case 1:
+                    iniciarRegistro();
+                    break;
+                case 2:
+                    iniciarJuego();
+                    break;
+                case 3:
+                    //Reglas
+                    break;
+                case 4:
+                    mensajesFunciones.agradecimientoSalida();
+                    salirJuego = true;
+            }
+        }while(!salirJuego);
+
+
+    }
+    public static void iniciarRegistro(){
+        mensajesFunciones.pedirRegistro(jugadores);
     }
 
-    private static void iniciarJuego(Mensaje mensajeFunc) {
+    private static void iniciarJuego() {
         Tablero tablero = new Tablero();
         tablero.crearMapPiezas();
         tablero.iniciarTablero();
-        pedirPosicionMovimiento(tablero, mensajeFunc);
+        pedirPosicionMovimiento(tablero);
     }
 
-    private static void pedirPosicionMovimiento(Tablero tablero, Mensaje mensajeFunc) {
+    private static void pedirPosicionMovimiento(Tablero tablero) {
         boolean salirJuego = false;
-        int[] posicion = mensajeFunc.pedirPosicionDePiezaParaElegir(tablero);
-        Pieza pieza = tablero.obtenerPiezaByPosicion(posicion[0], posicion[1], Tablero.NEGRO);
-        boolean valido = false;
-        while (!valido) {
-            if (pieza == null) {
-                mensajeFunc.mostrarMsjIngreseValida("pieza");
-                posicion = mensajeFunc.pedirPosicionDePiezaParaElegir(tablero);
-                pieza = tablero.obtenerPiezaByPosicion(posicion[0], posicion[1], Tablero.NEGRO);
+        while (!salirJuego) {
+            int[] posicion = mensajesFunciones.pedirPosicionDePiezaParaElegir(tablero);
+            if (posicion[0] != -1 && posicion[1] != -1) {
+                Pieza pieza = tablero.obtenerPiezaByPosicion(posicion[0], posicion[1], Tablero.NEGRO);
+                boolean valido = false;
+                while (!valido) {
+                    if (pieza == null) {
+                        mensajesFunciones.mostrarMsjIngreseValida("pieza");
+                        posicion = mensajesFunciones.pedirPosicionDePiezaParaElegir(tablero);
+                        pieza = tablero.obtenerPiezaByPosicion(posicion[0], posicion[1], Tablero.NEGRO);
+                    } else {
+                        valido = true;
+                    }
+                }
+                pieza.movimiento(pieza, tablero);
+                tablero.mostrarTablero(false, null);
             } else {
-                valido = true;
+                salirJuego = mensajesFunciones.validarSalida();
+
             }
         }
-
-        seguirJuegoSegunPieza(tablero, pieza);
+        mensajesFunciones.agradecimientoSalida();
 
 
     }
-
-
-    private static void seguirJuegoSegunPieza(Tablero tablero, Pieza pieza) {
-        switch (pieza.getNombre().substring(0, pieza.getNombre().length() - 1)) {
-            case Tablero.ALFIL_BLANCO, Tablero.ALFIL_NEGRO:
-
-                System.out.println("Prueba alfil");
-                break;
-            case Tablero.CABALLO_BLANCO, Tablero.CABALLO_NEGRO:
-                System.out.println("Prueba caballo");
-
-                break;
-
-            case Tablero.PEON_BLANCO, Tablero.PEON_NEGRO:
-                System.out.println("Prueba peon");
-                pieza.movimiento(pieza, tablero);
-
-                break;
-            case Tablero.TORRE_BLANCO, Tablero.TORRE_NEGRO:
-                System.out.println("Prueba torre");
-                pieza.movimiento(pieza, tablero);
-                break;
-            case Tablero.REINA_BLANCO, Tablero.REINA_NEGRO:
-                System.out.println("Prueba reina");
-
-                break;
-            case Tablero.REY_BLANCO, Tablero.REY_NEGRO:
-                System.out.println("Prueba rey");
-
-                break;
-        }
-        tablero.mostrarTablero(false, null);
-    }
-
 }

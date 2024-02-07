@@ -64,7 +64,7 @@ public class Torre extends Pieza {
         int posicionYActual = super.getPosicion_y();
 
         if (tablero.validarPosicionAMover(posicionXActual + 1, posicionYActual)) {
-            for (int x = posicionXActual; x <= 8; x++) {
+            for (int x = posicionXActual; x <= 8 && tablero.validarPosicionAMover(x + 1, posicionYActual); x++) {
                 if (tablero.validarPosicionAMover(x + 1, posicionYActual)) {
                     movimientos.add(String.valueOf((x + 1)) + String.valueOf(posicionYActual));
                 }
@@ -72,7 +72,7 @@ public class Torre extends Pieza {
 
         }
         if (tablero.validarPosicionAMover(posicionXActual, posicionYActual + 1)) {
-            for (int y = posicionYActual; y < 8; y++) {
+            for (int y = posicionYActual; y < 8 && tablero.validarPosicionAMover(posicionXActual, y+1); y++) {
                 if (tablero.validarPosicionAMover(posicionXActual, y + 1)) {
                     movimientos.add(String.valueOf((posicionXActual)) + String.valueOf(y + 1));
                 }
@@ -81,7 +81,7 @@ public class Torre extends Pieza {
         }
         if (posicionYActual - 1 >= 0) {
             if (tablero.validarPosicionAMover(posicionXActual, posicionYActual - 1)) {
-                for (int y = posicionYActual; y >= 0; y--) {
+                for (int y = posicionYActual; y >= 0  && tablero.validarPosicionAMover(posicionXActual, y-1); y--) {
                     if (tablero.validarPosicionAMover(posicionXActual, y - 1)) {
                         movimientos.add(String.valueOf((posicionXActual)) + String.valueOf(y - 1));
                     }
@@ -90,7 +90,7 @@ public class Torre extends Pieza {
         }
         if (posicionXActual - 1 >= 0) {
             if (tablero.validarPosicionAMover(posicionXActual - 1, posicionYActual)) {
-                for (int x = posicionXActual; x >= 0; x--) {
+                for (int x = posicionXActual; x >= 0  && tablero.validarPosicionAMover(x+1, posicionYActual); x--) {
                     if (tablero.validarPosicionAMover(x - 1, posicionYActual)) {
                         movimientos.add(String.valueOf((x - 1)) + String.valueOf(posicionYActual));
                     }

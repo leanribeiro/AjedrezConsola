@@ -1,5 +1,6 @@
 package clases.juego;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -17,7 +18,6 @@ public class Mensaje {
 
         System.out.println("-----------------------------------------------------");
         System.out.println("-----------------------------------------------------");
-        mostrarMenu();
     }
 
     public void mostrarMenu() {
@@ -26,28 +26,61 @@ public class Mensaje {
         System.out.println("---------------- 2- Iniciar Juego         -----------");
         System.out.println("---------------- 3- Reglas                -----------");
         System.out.println("---------------- 4- Salir                 -----------");
-
     }
 
     public int elegirOpcionMenu() {
+        mostrarMenu();
         System.out.print("ELIJA OPCION:    ");
         String opcion = sc.nextLine();
         boolean opcionValida = false;
         while (!opcionValida) {
-            if((opcion.length() > 1 || opcion.length() < 1) || !Character.isDigit(opcion.charAt(0)) ){
+            if ((opcion.length() > 1 || opcion.length() < 1) || !Character.isDigit(opcion.charAt(0))) {
                 mostrarMsjIngreseValida("opcion");
                 mostrarMenu();
                 opcion = sc.nextLine();
-
-            }else{
-//                    mostrarMsjIngreseValida("opcion");
-                    opcionValida=true;
+            } else {
+                opcionValida = true;
             }
         }
         System.out.println();
         return Integer.parseInt(opcion);
     }
 
+
+    public void pedirRegistro(List<Jugador> jugadores ){
+
+        System.out.println("Bienvenidos al registrar jugador");
+        boolean salirRegistro=false;
+
+        while(!salirRegistro){
+            Jugador jugador = new Jugador();
+            //        Pido datos al usuario
+            //
+            //
+            //
+            //
+            //
+            //
+            // Seteas codigo en el jugador con el .set
+
+            //Agrego jugador a la lista
+            jugadores.add(jugador);
+            System.out.println("Jugador ingresado correctamente");
+
+            int opcion = 1;
+            do{
+                System.out.println("Ingrese:  ");
+                System.out.println(" 1. Registrar otro jugador");
+                System.out.println(" 2. Salir");
+                opcion = sc.nextInt();
+                sc.nextLine();
+            }while(opcion != 2 && opcion !=1);
+
+            if(opcion == 2){
+                salirRegistro = true;
+            }
+        }
+    }
     public String funcionalidadMovimiento(Tablero tablero, List<String> movimientos) {
         System.out.println("Estas son los posibles movimientos: (aparecera el nombre de la casilla en verde) ");
         tablero.mostrarTablero(true, movimientos);
@@ -107,10 +140,26 @@ public class Mensaje {
         System.out.println("Ingrese una " + texto + " valida: ");
     }
 
+    public boolean validarSalida() {
+        boolean salir = false;
+
+        System.out.println("Esta seguro que quiere salir?");
+        System.out.println("1. Seguir jugando");
+        System.out.println("2. Salir de la partida");
+        int salida = sc.nextInt();
+        sc.nextLine();
+        if (salida == 2) {
+            salir = true;
+        }
+
+        return salir;
+    }
+
     public void mostrarXparaSalir() {
         System.out.println("(ingresa 'X' para cancelar)");
     }
-    public void agradecimientoSalida(){
+
+    public void agradecimientoSalida() {
         System.out.println("Gracias por jugar al mejor AJEDREZ TORO");
     }
 }
