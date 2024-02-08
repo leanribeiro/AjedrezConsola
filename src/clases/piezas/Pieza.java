@@ -1,10 +1,10 @@
 package clases.piezas;
 
+import clases.juego.Mensaje;
 import clases.juego.Tablero;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class Pieza {
     private String nombre;
@@ -70,6 +70,29 @@ public class Pieza {
     }
 
     public void movimiento(Pieza pieza, Tablero tablero) {
+    }
+    public boolean validacionCasilla(boolean casillaValida, String casilla, String[] casillaSeleccionada, Tablero tablero, List<String> movimientos) {
+        Mensaje mensaje = new Mensaje();
+        while (!casillaValida && casilla.toUpperCase().charAt(0) != 'X') {
+            if (casilla.length() == 2) {
+                if (Character.isDigit(casillaSeleccionada[0].charAt(0)) &&
+                        Character.isLetter(casillaSeleccionada[1].toUpperCase().charAt(0))
+                        && tablero.esPosicionValidaAMostrar(Integer.parseInt(casillaSeleccionada[0]),
+                        tablero.getIndexByLetra(casillaSeleccionada[1]), movimientos)
+                ) {
+                    casillaValida = true;
+                }
+            }
+
+            if (!casillaValida) {
+                casilla = mensaje.pedirCasillaValida();
+                casillaSeleccionada = casilla.split("");
+            }
+
+
+        }
+
+        return casillaValida;
     }
 
     public void mover(Pieza[][] tablero, int posicion_x, int posicion_y) {

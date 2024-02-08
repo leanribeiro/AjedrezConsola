@@ -72,29 +72,4 @@ public class Peon extends Pieza {
                     tablero.getIndexByLetra(casillaSeleccionada[1]));
         }
     }
-
-
-    private boolean validacionCasilla(boolean casillaValida, String casilla, String[] casillaSeleccionada, Tablero tablero, List<String> movimientos) {
-        Mensaje mensaje = new Mensaje();
-        while (!casillaValida && casilla.toUpperCase().charAt(0) != 'X') {
-            if (casilla.length() == 2) {
-                if (Character.isDigit(casillaSeleccionada[0].charAt(0)) &&
-                        Character.isLetter(casillaSeleccionada[1].toUpperCase().charAt(0))
-                        && tablero.esPosicionValidaAMostrar(Integer.parseInt(casillaSeleccionada[0]),
-                        tablero.getIndexByLetra(casillaSeleccionada[1]), movimientos)
-                ) {
-                    casillaValida = true;
-                }
-            }
-
-            if (!casillaValida) {
-                casilla = mensaje.pedirCasillaValida();
-                casillaSeleccionada = casilla.split("");
-            }
-
-
-        }
-
-        return casillaValida;
-    }
 }

@@ -8,6 +8,10 @@ import java.util.List;
 
 public class Alfil extends Pieza {
 
+    public Alfil(int posicion_x, int posicion_y){
+        super.setPosicion_x(posicion_x);
+        super.setPosicion_y(posicion_y);
+    }
     public Alfil(String nombre, String color, int posicion_x, int posicion_y) {
         super(nombre, color, posicion_x, posicion_y);
     }
@@ -36,9 +40,8 @@ public class Alfil extends Pieza {
         boolean salirAbajoIzq = false;
         for (int x = 0; ((posicionXActual + x) < tablero.getTablero().length || (posicionYActual - x) >= 0)
                 && !salirAbajoIzq; x++) {
-            if (tablero.validarPosicionAMover(posicionXActual+x, posicionYActual - x)) {
-                movimientos.add(String.valueOf((posicionXActual+x)) + String.valueOf(posicionYActual - x));
-
+            if (tablero.validarPosicionAMover(posicionXActual+x+1, posicionYActual - x -1)) {
+                movimientos.add(String.valueOf((posicionXActual+x +1 )) + String.valueOf(posicionYActual - x -1));
             }else{
                 salirAbajoIzq = true;
             }
@@ -82,27 +85,4 @@ public class Alfil extends Pieza {
     }
 
 
-    private boolean validacionCasilla(boolean casillaValida, String casilla, String[] casillaSeleccionada, Tablero tablero, List<String> movimientos) {
-        Mensaje mensaje = new Mensaje();
-        while (!casillaValida && casilla.toUpperCase().charAt(0) != 'X') {
-            if (casilla.length() == 2) {
-                if (Character.isDigit(casillaSeleccionada[0].charAt(0)) &&
-                        Character.isLetter(casillaSeleccionada[1].toUpperCase().charAt(0))
-                        && tablero.esPosicionValidaAMostrar(Integer.parseInt(casillaSeleccionada[0]),
-                        tablero.getIndexByLetra(casillaSeleccionada[1]), movimientos)
-                ) {
-                    casillaValida = true;
-                }
-            }
-
-            if (!casillaValida) {
-                casilla = mensaje.pedirCasillaValida();
-                casillaSeleccionada = casilla.split("");
-            }
-
-
-        }
-
-        return casillaValida;
-    }
-}
+   }
