@@ -1,6 +1,7 @@
 package clases.juego;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -82,14 +83,23 @@ public class Mensaje {
         }
     }
     public String funcionalidadMovimiento(Tablero tablero, List<String> movimientos) {
-        System.out.println("Estas son los posibles movimientos: ");
-        System.out.println("En color verde apareceran las casillas disponibles para moverse ");
-        System.out.println("Con un fondo rojo aparecera la pieza que se puede comer.");
+        String casilla = "";
 
-        tablero.mostrarTablero(true, movimientos);
-        System.out.println("Ingrese el nombre de la casilla a la que se quiere mover: (ingresa 'x' para cancelar)");
+        if(movimientos.size() > 0){
+            System.out.println("Estas son los posibles movimientos: ");
+            System.out.println("En color verde apareceran las casillas disponibles para moverse ");
+            System.out.println("Con un fondo rojo aparecera la pieza que se puede comer.");
 
-        String casilla = sc.nextLine();
+            tablero.mostrarTablero(true, movimientos);
+            System.out.println("Ingrese el nombre de la casilla a la que se quiere mover: (ingresa 'x' para cancelar)");
+
+            casilla = sc.nextLine();
+        }else{
+
+            System.out.println("\n\n\nLa pieza no se puede mover \n\n" +
+                    "Elija otra pieza"+"\n\n");
+            esperarSegundosParaSeguir(1);
+        }
 
         return casilla;
 
@@ -164,5 +174,14 @@ public class Mensaje {
 
     public void agradecimientoSalida() {
         System.out.println("Gracias por jugar al mejor AJEDREZ TORO");
+    }
+
+    public void esperarSegundosParaSeguir(int segundos){
+        long startTime = System.currentTimeMillis();
+        long elapsedTime = 0L;
+
+        while (elapsedTime < segundos * 1000L) {
+            elapsedTime = System.currentTimeMillis() - startTime;
+        }
     }
 }

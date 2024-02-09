@@ -73,7 +73,7 @@ public class Pieza {
     }
     public boolean validacionCasilla(boolean casillaValida, String casilla, String[] casillaSeleccionada, Tablero tablero, List<String> movimientos) {
         Mensaje mensaje = new Mensaje();
-        while (!casillaValida && casilla.toUpperCase().charAt(0) != 'X') {
+        while (casilla != "" && !casillaValida && casilla.toUpperCase().charAt(0) != 'X') {
             if (casilla.length() == 2) {
                 if (Character.isDigit(casillaSeleccionada[0].charAt(0)) &&
                         Character.isLetter(casillaSeleccionada[1].toUpperCase().charAt(0))
