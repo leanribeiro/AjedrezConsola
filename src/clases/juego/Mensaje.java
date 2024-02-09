@@ -82,7 +82,10 @@ public class Mensaje {
         }
     }
     public String funcionalidadMovimiento(Tablero tablero, List<String> movimientos) {
-        System.out.println("Estas son los posibles movimientos: (aparecera el nombre de la casilla en verde) ");
+        System.out.println("Estas son los posibles movimientos: ");
+        System.out.println("En color verde apareceran las casillas disponibles para moverse ");
+        System.out.println("Con un fondo rojo aparecera la pieza que se puede comer.");
+
         tablero.mostrarTablero(true, movimientos);
         System.out.println("Ingrese el nombre de la casilla a la que se quiere mover: (ingresa 'x' para cancelar)");
 
