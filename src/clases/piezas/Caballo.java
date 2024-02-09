@@ -28,6 +28,9 @@ public class Caballo extends Pieza{
         for (int i = 0; i < movimientosX.length; i++) {
             int nuevaX = posicionXActual + movimientosX[i];
             int nuevaY = posicionYActual + movimientosY[i];
+            if(tablero.validarPosicionAComer(nuevaX,nuevaY,this.getColor())){
+                movimientos.add(String.valueOf(nuevaX) + String.valueOf(nuevaY)+"M");
+            }
             if (tablero.validarPosicionAMover(nuevaX, nuevaY)) {
                 movimientos.add(String.valueOf(nuevaX) + String.valueOf(nuevaY));
             }
