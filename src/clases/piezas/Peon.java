@@ -58,18 +58,4 @@ public class Peon extends Pieza {
         return movimientos;
     }
 
-    @Override
-    public void movimiento(Pieza pieza, Tablero tablero) {
-        Mensaje mensajesFuncionalidades = new Mensaje();
-        List<String> movimientos = pieza.posicionesValidasMover(tablero);
-        String casilla = mensajesFuncionalidades.funcionalidadMovimiento(tablero, movimientos);
-
-        boolean casillaValida = false;
-        var casillaSeleccionada = casilla.split("");
-        casillaValida = validacionCasilla(casillaValida, casilla, casillaSeleccionada, tablero, movimientos);
-        if (casillaValida) {
-            tablero.moverPieza(pieza, Integer.parseInt(String.valueOf(casillaSeleccionada[0].charAt(0))),
-                    tablero.getIndexByLetra(casillaSeleccionada[1]));
-        }
-    }
 }

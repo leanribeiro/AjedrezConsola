@@ -1,6 +1,5 @@
 package clases.piezas;
 
-import clases.juego.Mensaje;
 import clases.juego.Tablero;
 
 import java.util.ArrayList;
@@ -31,6 +30,9 @@ public class Alfil extends Pieza {
         boolean salirAbajoDerecha = false;
         for (int x = 0; x < 8 && !salirAbajoDerecha; x++) {
             if ((posicionXActual + x) < 8 && (posicionYActual + x) < 8) {
+                if(tablero.validarPosicionAComer(posicionXActual+x+1,posicionYActual+x+1)){
+                    movimientos.add(String.valueOf((posicionXActual + x + 1)) + String.valueOf(posicionYActual + x + 1) + "M");
+                }
                 if (tablero.validarPosicionAMover(posicionXActual + x + 1, posicionYActual + x + 1)) {
                     movimientos.add(String.valueOf((posicionXActual + x + 1)) + String.valueOf(posicionYActual + x + 1));
                 } else {
@@ -70,20 +72,7 @@ public class Alfil extends Pieza {
         return movimientos;
     }
 
-    @Override
-    public void movimiento(Pieza pieza, Tablero tablero) {
-        Mensaje mensajesFuncionalidades = new Mensaje();
-        List<String> movimientos = pieza.posicionesValidasMover(tablero);
-        String casilla = mensajesFuncionalidades.funcionalidadMovimiento(tablero, movimientos);
 
-        boolean casillaValida = false;
-        var casillaSeleccionada = casilla.split("");
-        casillaValida = validacionCasilla(casillaValida, casilla, casillaSeleccionada, tablero, movimientos);
-        if (casillaValida) {
-            tablero.moverPieza(pieza, Integer.parseInt(String.valueOf(casillaSeleccionada[0].charAt(0))),
-                    tablero.getIndexByLetra(casillaSeleccionada[1]));
-        }
-    }
 
 
 }

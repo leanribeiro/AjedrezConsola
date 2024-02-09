@@ -65,7 +65,7 @@ public class Tablero {
     private void llenarPiezasNegrasIni() {
         Pieza t1 = new Torre(TORRE_NEGRO + "1", NEGRO, 0, 0);
         Pieza c1 = new Caballo(CABALLO_NEGRO + "1", NEGRO, 0, 1);
-        Pieza a1 = new Alfil(ALFIL_NEGRO + "1", NEGRO, 0, 2);
+        Pieza a1 = new Alfil(ALFIL_NEGRO + "1", NEGRO, 2, 2);
         Pieza reina = new Reina(REINA_NEGRO + "N", NEGRO, 0, 3);
         Pieza rey = new Rey(REY_NEGRO+ "N", NEGRO, 0, 4);
         Pieza a2 = new Alfil(ALFIL_NEGRO + "2", NEGRO, 0, 5);
@@ -105,16 +105,25 @@ public class Tablero {
     }
 
     public boolean esPosicionValidaAMostrar(int x, int y, List<String> movimientos){
-        final boolean[] result = {Boolean.FALSE};
-        movimientos.forEach(movimiento ->{
+        boolean result = false;
+        for(String movimiento :movimientos ){
             var mov = movimiento.split("");
-            if(Integer.parseInt(mov[0])== x && Integer.parseInt(mov[1]) == y ){
-                result[0] =  Boolean.TRUE;
+            if(mov.length == 2){
+                if((Integer.parseInt(mov[0])== x && Integer.parseInt(mov[1]) == y )){
+                    result =  true;
+                }
             }
-        });
+            if(mov.length ==3){
+                if((Integer.parseInt(mov[0])== x && Integer.parseInt(mov[1]) == y ) && mov[2].equals("M")){
+                    result =  true;
+                }
+            }
 
-        return result[0];
+        }
+
+        return result;
     }
+
 
     public void mostrarTablero(boolean mostrarValidas, List<String> movimientos) {
         System.out.println("        A     B     C    D     E     F     G     H");
@@ -181,10 +190,14 @@ public class Tablero {
 
     public void actualizarTablero(){
         for (Pieza pieza : getPiezasBlancas()) {
-            tablero[pieza.getPosicion_x()][pieza.getPosicion_y()] = pieza;
+            if(pieza.getPosicion_x() != -1 && pieza.getPosicion_y() !=-1){
+                tablero[pieza.getPosicion_x()][pieza.getPosicion_y()] = pieza;
+            }
         }
         for (Pieza pieza : getPiezasNegras()) {
-            tablero[pieza.getPosicion_x()][pieza.getPosicion_y()] = pieza;
+            if(pieza.getPosicion_x() != -1 && pieza.getPosicion_y() !=-1){
+                tablero[pieza.getPosicion_x()][pieza.getPosicion_y()] = pieza;
+            }
         }
     }
 
@@ -192,6 +205,15 @@ public class Tablero {
         boolean esValida = false;
         if (posicion_x <8 && posicion_y < 8 && posicion_x >=0 && posicion_y >=0  &&
                 tablero[posicion_x][posicion_y].getNombre().equals(ESPACIO_VACIO)  ) {
+            esValida = true;
+        }
+        return esValida;
+    }
+
+    public boolean validarPosicionAComer(int posicion_x, int posicion_y) {
+        boolean esValida = false;
+        if (posicion_x <8 && posicion_y < 8 && posicion_x >=0 && posicion_y >=0  &&
+                !tablero[posicion_x][posicion_y].getNombre().equals(ESPACIO_VACIO)  ) {
             esValida = true;
         }
         return esValida;
@@ -218,14 +240,25 @@ public class Tablero {
         return getColumnas()[index];
     }
 
-    public void moverPieza(Pieza pieza,int nuevaPosX, int nuevaPosY){
+    public void moverPieza(Pieza pieza,int nuevaPosX, int nuevaPosY, boolean comer){
         int xAntiguo = pieza.getPosicion_x();
         int yAntiguo = pieza.getPosicion_y();
         tablero[xAntiguo][yAntiguo] = new Pieza(ESPACIO_VACIO, "", pieza.getPosicion_x(), pieza.getPosicion_y());
 
-        pieza.moverse(nuevaPosX,nuevaPosY);
+        if(comer){
+            comerPieza(pieza, nuevaPosX,nuevaPosY);
+        }else{
+            pieza.moverse(nuevaPosX,nuevaPosY);
+        }
         actualizarTablero();
     }
+
+    private void comerPieza(Pieza pieza,int posX, int posY){
+        Pieza piezaAntigua =  tablero[posX][posY];
+        piezaAntigua.moverse(-1,-1);
+        pieza.moverse(posX,posY);
+    }
+
 
     public void setColumnas(String[] columnas) {
         this.columnas = columnas;

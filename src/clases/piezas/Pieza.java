@@ -33,7 +33,7 @@ public class Pieza {
     }
 
     public List<String> posicionesValidasMover(Tablero tablero) {
-        List<String>  movimientos = new ArrayList<>();
+        List<String> movimientos = new ArrayList<>();
         return movimientos;
     }
 
@@ -70,11 +70,25 @@ public class Pieza {
     }
 
     public void movimiento(Pieza pieza, Tablero tablero) {
+        Mensaje mensajesFuncionalidades = new Mensaje();
+        List<String> movimientos = pieza.posicionesValidasMover(tablero);
+        String casilla = mensajesFuncionalidades.funcionalidadMovimiento(tablero, movimientos);
+
+        boolean casillaValida = false;
+        var casillaSeleccionada = casilla.split("");
+        casillaValida = validacionCasilla(casillaValida, casilla, casillaSeleccionada, tablero, movimientos);
+        boolean prueba = tablero.validarPosicionAComer(Integer.parseInt(String.valueOf(casillaSeleccionada[0].charAt(0))),
+                tablero.getIndexByLetra(casillaSeleccionada[1]));
+        if (casillaValida) {
+            tablero.moverPieza(pieza, Integer.parseInt(String.valueOf(casillaSeleccionada[0].charAt(0))),
+                    tablero.getIndexByLetra(casillaSeleccionada[1]),prueba);
+        }
     }
+
     public boolean validacionCasilla(boolean casillaValida, String casilla, String[] casillaSeleccionada, Tablero tablero, List<String> movimientos) {
         Mensaje mensaje = new Mensaje();
         while (casilla != "" && !casillaValida && casilla.toUpperCase().charAt(0) != 'X') {
-            if (casilla.length() == 2) {
+            if (casilla.length() == 2 ||  casilla.length() == 3 ) {
                 if (Character.isDigit(casillaSeleccionada[0].charAt(0)) &&
                         Character.isLetter(casillaSeleccionada[1].toUpperCase().charAt(0))
                         && tablero.esPosicionValidaAMostrar(Integer.parseInt(casillaSeleccionada[0]),
