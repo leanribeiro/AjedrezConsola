@@ -77,11 +77,11 @@ public class Pieza {
         boolean casillaValida = false;
         var casillaSeleccionada = casilla.split("");
         casillaValida = validacionCasilla(casillaValida, casilla, casillaSeleccionada, tablero, movimientos);
-        boolean prueba = tablero.validarPosicionAComer(Integer.parseInt(String.valueOf(casillaSeleccionada[0].charAt(0))),
-                tablero.getIndexByLetra(casillaSeleccionada[1]));
+        boolean quiereComer = tablero.validarPosicionAComer(Integer.parseInt(String.valueOf(casillaSeleccionada[0].charAt(0))),
+                tablero.getIndexByLetra(casillaSeleccionada[1]), this.getColor());
         if (casillaValida) {
             tablero.moverPieza(pieza, Integer.parseInt(String.valueOf(casillaSeleccionada[0].charAt(0))),
-                    tablero.getIndexByLetra(casillaSeleccionada[1]),prueba);
+                    tablero.getIndexByLetra(casillaSeleccionada[1]),quiereComer);
         }
     }
 

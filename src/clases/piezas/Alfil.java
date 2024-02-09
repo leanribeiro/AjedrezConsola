@@ -30,7 +30,7 @@ public class Alfil extends Pieza {
         boolean salirAbajoDerecha = false;
         for (int x = 0; x < 8 && !salirAbajoDerecha; x++) {
             if ((posicionXActual + x) < 8 && (posicionYActual + x) < 8) {
-                if(tablero.validarPosicionAComer(posicionXActual+x+1,posicionYActual+x+1)){
+                if(tablero.validarPosicionAComer(posicionXActual + x + 1,posicionYActual + x + 1, super.getColor())){
                     movimientos.add(String.valueOf((posicionXActual + x + 1)) + String.valueOf(posicionYActual + x + 1) + "M");
                 }
                 if (tablero.validarPosicionAMover(posicionXActual + x + 1, posicionYActual + x + 1)) {
@@ -43,6 +43,9 @@ public class Alfil extends Pieza {
         boolean salirAbajoIzq = false;
         for (int x = 0; ((posicionXActual + x) < tablero.getTablero().length || (posicionYActual - x) >= 0)
                 && !salirAbajoIzq; x++) {
+            if(tablero.validarPosicionAComer(posicionXActual+x+1,posicionYActual - x - 1, super.getColor())){
+                movimientos.add(String.valueOf((posicionXActual + x + 1)) + String.valueOf(posicionYActual - x - 1) + "M");
+            }
             if (tablero.validarPosicionAMover(posicionXActual + x + 1, posicionYActual - x - 1)) {
                 movimientos.add(String.valueOf((posicionXActual + x + 1)) + String.valueOf(posicionYActual - x - 1));
             } else {
@@ -52,6 +55,9 @@ public class Alfil extends Pieza {
         boolean salirArribaIzq = false;
         for (int x = 0; ((posicionXActual - x) >= 0 && (posicionYActual - x) >= 0)
                 && !salirArribaIzq; x++) {
+            if(tablero.validarPosicionAComer(posicionXActual - x - 1,posicionYActual - x - 1, super.getColor())){
+                movimientos.add(String.valueOf((posicionXActual - x - 1)) + String.valueOf(posicionYActual - x - 1) + "M");
+            }
             if (tablero.validarPosicionAMover(posicionXActual - x - 1, posicionYActual - x - 1)) {
                 movimientos.add(String.valueOf((posicionXActual - x - 1)) + String.valueOf(posicionYActual - x - 1));
             } else {
@@ -62,6 +68,9 @@ public class Alfil extends Pieza {
         boolean salirArribaDer = false;
         for (int x = 0; ((posicionXActual - x) >= 0 && (posicionYActual + x) < tablero.getTablero()[0].length)
                 && !salirArribaDer; x++) {
+            if(tablero.validarPosicionAComer(posicionXActual - x - 1,posicionYActual + x + 1, super.getColor())){
+                movimientos.add(String.valueOf((posicionXActual - x - 1)) + String.valueOf(posicionYActual + x + 1) + "M");
+            }
             if (tablero.validarPosicionAMover(posicionXActual - x - 1, posicionYActual + x + 1)) {
                 movimientos.add(String.valueOf((posicionXActual - x - 1)) + String.valueOf(posicionYActual + x + 1));
             } else {

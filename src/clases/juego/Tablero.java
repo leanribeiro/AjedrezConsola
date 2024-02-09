@@ -65,7 +65,7 @@ public class Tablero {
     private void llenarPiezasNegrasIni() {
         Pieza t1 = new Torre(TORRE_NEGRO + "1", NEGRO, 0, 0);
         Pieza c1 = new Caballo(CABALLO_NEGRO + "1", NEGRO, 0, 1);
-        Pieza a1 = new Alfil(ALFIL_NEGRO + "1", NEGRO, 2, 2);
+        Pieza a1 = new Alfil(ALFIL_NEGRO + "1", NEGRO, 0, 2);
         Pieza reina = new Reina(REINA_NEGRO + "N", NEGRO, 0, 3);
         Pieza rey = new Rey(REY_NEGRO+ "N", NEGRO, 0, 4);
         Pieza a2 = new Alfil(ALFIL_NEGRO + "2", NEGRO, 0, 5);
@@ -79,8 +79,8 @@ public class Tablero {
         Pieza p6 = new Peon(PEON_NEGRO + "6", NEGRO, 1, 5);
         Pieza p7 = new Peon(PEON_NEGRO + "7", NEGRO, 1, 6);
         Pieza p8 = new Peon(PEON_NEGRO + "8", NEGRO, 1, 7);
-        Pieza[] piezasBlancas = {t1, c1, a1, reina, rey, a2, c2, t2, p1, p2, p3, p4, p5, p6, p7, p8};
-        setPiezasBlancas(piezasBlancas);
+        Pieza[] piezasNegras = {t1, c1, a1, reina, rey, a2, c2, t2, p1, p2, p3, p4, p5, p6, p7, p8};
+        setPiezasNegras(piezasNegras);
     }
 
     private void llenarPiezasBlancasIni() {
@@ -100,8 +100,8 @@ public class Tablero {
         Pieza p6 = new Peon(PEON_BLANCO + "6", BLANCO, 6, 5);
         Pieza p7 = new Peon(PEON_BLANCO + "7", BLANCO, 6, 6);
         Pieza p8 = new Peon(PEON_BLANCO + "8", BLANCO, 6, 7);
-        Pieza[] piezasNegras = {t1, c1, a1, reina, rey, a2, c2, t2, p1, p2, p3, p4, p5, p6, p7, p8};
-        setPiezasNegras(piezasNegras);
+        Pieza[] piezasBlancas = {t1, c1, a1, reina, rey, a2, c2, t2, p1, p2, p3, p4, p5, p6, p7, p8};
+        setPiezasBlancas(piezasBlancas);
     }
 
     public boolean esPosicionValidaAMostrar(int x, int y, List<String> movimientos){
@@ -210,10 +210,11 @@ public class Tablero {
         return esValida;
     }
 
-    public boolean validarPosicionAComer(int posicion_x, int posicion_y) {
+    public boolean validarPosicionAComer(int posicion_x, int posicion_y,String colorJugadorActual) {
         boolean esValida = false;
         if (posicion_x <8 && posicion_y < 8 && posicion_x >=0 && posicion_y >=0  &&
-                !tablero[posicion_x][posicion_y].getNombre().equals(ESPACIO_VACIO)  ) {
+                !tablero[posicion_x][posicion_y].getNombre().equals(ESPACIO_VACIO)
+                && !tablero[posicion_x][posicion_y].getColor().equals(colorJugadorActual)  ) {
             esValida = true;
         }
         return esValida;
@@ -240,12 +241,12 @@ public class Tablero {
         return getColumnas()[index];
     }
 
-    public void moverPieza(Pieza pieza,int nuevaPosX, int nuevaPosY, boolean comer){
+    public void moverPieza(Pieza pieza,int nuevaPosX, int nuevaPosY, boolean quiereComer){
         int xAntiguo = pieza.getPosicion_x();
         int yAntiguo = pieza.getPosicion_y();
         tablero[xAntiguo][yAntiguo] = new Pieza(ESPACIO_VACIO, "", pieza.getPosicion_x(), pieza.getPosicion_y());
 
-        if(comer){
+        if(quiereComer){
             comerPieza(pieza, nuevaPosX,nuevaPosY);
         }else{
             pieza.moverse(nuevaPosX,nuevaPosY);
